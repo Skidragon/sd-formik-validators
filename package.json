@@ -1,8 +1,9 @@
 {
   "name": "sd-formik-validators",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Common validators for Formik",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
     "build": "tsc",
@@ -21,8 +22,12 @@
     "type": "git",
     "url": "git+https://github.com/Skidragon/sd-formik-validators.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "Formik",
+    "Validation",
+    "Validator"
+  ],
+  "author": "Simon Davis",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Skidragon/sd-formik-validators/issues"
