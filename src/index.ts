@@ -59,7 +59,7 @@ const zipValidator = (value: string): ValidatorOutput => {
   return zipRegex.test(value) ? undefined : 'Not a valid zip code';
 };
 
-export const formValidators = {
+export {
   composeValidators,
   dateValidator,
   emailValidator,

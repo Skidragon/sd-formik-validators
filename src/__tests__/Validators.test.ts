@@ -1,17 +1,22 @@
-import { formValidators } from '../';
+import {
+  dateValidator,
+  emailValidator,
+  minLengthValidator,
+  notPastDateValidator,
+  requiredValidator,
+  zipValidator,
+} from '../';
 
 //It is a valid value when validator returns undefined.
 
 //It is not a valid value when validator returns an error string.
 describe('Testing formValidators', () => {
   it('requiredValidator', () => {
-    const { requiredValidator } = formValidators;
     expect(requiredValidator('a')).toBeUndefined();
     //Returns an error
     expect(requiredValidator('')).toBeTruthy();
   });
   it('minLengthValidator', () => {
-    const { minLengthValidator } = formValidators;
     const minValidator = minLengthValidator.bind(null, {
       minLength: 6,
       message: `It must be 6 characters`,
@@ -23,7 +28,6 @@ describe('Testing formValidators', () => {
     expect(minValidator('abcdefgh')).toBeUndefined();
   });
   it('emailValidator', () => {
-    const { emailValidator } = formValidators;
     expect(emailValidator('daviss@gottlieb.com')).toBeUndefined();
     expect(emailValidator('s@gmail.co')).toBeUndefined();
 
@@ -32,7 +36,6 @@ describe('Testing formValidators', () => {
     expect(emailValidator('davis@gottlieb')).toBeTruthy();
   });
   it('zipValidator', () => {
-    const { zipValidator } = formValidators;
     expect(zipValidator('12345')).toBeUndefined();
     expect(zipValidator('12345-6789')).toBeUndefined();
 
@@ -42,14 +45,11 @@ describe('Testing formValidators', () => {
     expect(zipValidator('1-')).toBeTruthy();
   });
   it('dateValidator', () => {
-    const { dateValidator } = formValidators;
-
     expect(dateValidator(new Date())).toBeUndefined();
 
     expect(dateValidator(new Date('a'))).toBeTruthy();
   });
   it('notPastDateValidator', () => {
-    const { notPastDateValidator } = formValidators;
     // Testing Future dates
     //----------------------------
     const future = new Date();
