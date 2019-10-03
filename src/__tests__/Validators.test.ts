@@ -1,8 +1,10 @@
 import {
   dateValidator,
   emailValidator,
+  honeypotValidator,
   minLengthValidator,
   notPastDateValidator,
+  regexValidator,
   requiredValidator,
   zipValidator,
 } from '../';
@@ -11,15 +13,32 @@ import {
 
 //It is not a valid value when validator returns an error string.
 describe('Testing formValidators', () => {
+  it('honeypotValidator', () => {
+    expect(honeypotValidator('')).toBeUndefined();
+    expect(honeypotValidator('abc')).toBe(' ');
+    expect(honeypotValidator('a')).toBe(' ');
+  });
+  it('regexValidator', () => {
+    const validator = regexValidator({
+      message: 'Invalid message',
+      regex: /messages?/,
+    });
+    expect(validator('messages')).toBeUndefined();
+    expect(validator('message')).toBeUndefined();
+
+    expect(validator('Im a bad msg')).toBeTruthy();
+  });
+
   it('requiredValidator', () => {
     expect(requiredValidator('a')).toBeUndefined();
     //Returns an error
     expect(requiredValidator('')).toBeTruthy();
   });
+
   it('minLengthValidator', () => {
-    const minValidator = minLengthValidator.bind(null, {
+    const minValidator = minLengthValidator({
       minLength: 6,
-      message: `It must be 6 characters`,
+      customMessage: `It must be 6 characters`,
     });
     expect(minValidator('abc')).toBeTruthy();
     expect(minValidator('abcde')).toBeTruthy();

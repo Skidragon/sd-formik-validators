@@ -23,11 +23,14 @@ const emailValidator = (value: string): ValidatorOutput => {
   return emailRegex.test(value) ? undefined : 'Not a valid email';
 };
 
+const honeypotValidator = (value: string) => {
+  return !value ? undefined : ' ';
+};
 interface IMinimumOptions {
   minLength: number;
   customMessage?: string | undefined;
 }
-const minLengthValidator = (minOptions: IMinimumOptions, value: string): ValidatorOutput => {
+const minLengthValidator = (minOptions: IMinimumOptions) => (value: string): ValidatorOutput => {
   const { minLength, customMessage } = minOptions;
   const msg = customMessage ? customMessage : `Field must have ${minLength} characters.`;
   return value.length >= minLength ? undefined : msg;
@@ -52,6 +55,14 @@ const notPastDateValidator = (value: Date): ValidatorOutput => {
     return 'Invalid Date';
   }
 };
+interface IRegexOptions {
+  message: string;
+  regex: RegExp;
+}
+const regexValidator = (regexOptions: IRegexOptions) => (value: string) => {
+  const { regex, message } = regexOptions;
+  return regex.test(value) ? undefined : message;
+};
 
 const requiredValidator = (value: string): ValidatorOutput => {
   return value ? undefined : 'Required';
@@ -65,8 +76,10 @@ export {
   composeValidators,
   dateValidator,
   emailValidator,
+  honeypotValidator,
   minLengthValidator,
   notPastDateValidator,
+  regexValidator,
   requiredValidator,
   zipValidator,
 };
