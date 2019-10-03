@@ -6,10 +6,6 @@ type ValidatorOutput = string | undefined;
 const composeValidators = (...validators: any[]) => (value: string | undefined): string | undefined => {
   return validators.reduce((error, validator) => error || validator(value), undefined);
 };
-interface IMinimumLengthOptions {
-  minLength: number;
-  message: string;
-}
 
 const dateValidator = (value: Date): ValidatorOutput => {
   if (Object.prototype.toString.call(value) === '[object Date]') {
@@ -26,9 +22,15 @@ const dateValidator = (value: Date): ValidatorOutput => {
 const emailValidator = (value: string): ValidatorOutput => {
   return emailRegex.test(value) ? undefined : 'Not a valid email';
 };
-const minLengthValidator = (minOptions: IMinimumLengthOptions, value: string): ValidatorOutput => {
-  const { minLength, message } = minOptions;
-  return value.length >= minLength ? undefined : message;
+
+interface IMinimumOptions {
+  minLength: number;
+  customMessage?: string | undefined;
+}
+const minLengthValidator = (minOptions: IMinimumOptions, value: string): ValidatorOutput => {
+  const { minLength, customMessage } = minOptions;
+  const msg = customMessage ? customMessage : `Field must have ${minLength} characters.`;
+  return value.length >= minLength ? undefined : msg;
 };
 
 const isSameDay = (d1: Date, d2: Date): boolean => {
