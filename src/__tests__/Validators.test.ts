@@ -47,6 +47,7 @@ describe('Testing formValidators', () => {
     expect(minValidator('abcdefgh')).toBeUndefined();
   });
   it('emailValidator', () => {
+    expect(emailValidator('')).toBeUndefined();
     expect(emailValidator('daviss@gottlieb.com')).toBeUndefined();
     expect(emailValidator('s@gmail.co')).toBeUndefined();
 
@@ -55,6 +56,7 @@ describe('Testing formValidators', () => {
     expect(emailValidator('davis@gottlieb')).toBeTruthy();
   });
   it('zipValidator', () => {
+    expect(zipValidator('')).toBeUndefined();
     expect(zipValidator('12345')).toBeUndefined();
     expect(zipValidator('12345-6789')).toBeUndefined();
 

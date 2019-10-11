@@ -20,6 +20,9 @@ const dateValidator = (value: Date): ValidatorOutput => {
 };
 
 const emailValidator = (value: string): ValidatorOutput => {
+  if (value === '') {
+    return undefined;
+  }
   return emailRegex.test(value) ? undefined : 'Not a valid email';
 };
 
@@ -69,6 +72,9 @@ const requiredValidator = (value: string): ValidatorOutput => {
 };
 
 const zipValidator = (value: string): ValidatorOutput => {
+  if (value === '') {
+    return undefined;
+  }
   return zipRegex.test(value) ? undefined : 'Not a valid zip code';
 };
 
