@@ -6,6 +6,7 @@ import {
   notPastDateValidator,
   regexValidator,
   requiredValidator,
+  stringDateValidator,
   zipValidator,
 } from '../';
 
@@ -33,6 +34,26 @@ describe('Testing formValidators', () => {
     expect(requiredValidator('a')).toBeUndefined();
     //Returns an error
     expect(requiredValidator('')).toBeTruthy();
+  });
+
+  it('stringDateValidator', () => {
+    const validator = stringDateValidator({
+      message: 'Invalid Date.',
+      inputMaskToIgnore: '__/__/____',
+    });
+    expect(validator('__/__/____')).toBeUndefined();
+    expect(validator('02/32/2019')).toBe('Invalid Date.');
+    expect(validator('02/__/____')).toBe('Invalid Date.');
+    expect(validator('13/24/2019')).toBe('Invalid Date.');
+
+    const validator2 = stringDateValidator({
+      message: 'Invalid Date!!!',
+      inputMaskToIgnore: '__-__-____',
+    });
+    expect(validator2('02-24-2000')).toBeUndefined();
+    expect(validator2('__-__-____')).toBeUndefined();
+    expect(validator2('02-00-2024')).toBe('Invalid Date!!!');
+    expect(validator2('__/__/____')).toBe('Invalid Date!!!');
   });
 
   it('minLengthValidator', () => {

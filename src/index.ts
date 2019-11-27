@@ -1,4 +1,4 @@
-import { compareAsc } from 'date-fns';
+import { compareAsc, isValid } from 'date-fns';
 import { emailRegex, zipRegex } from './regex';
 
 type ValidatorOutput = string | undefined;
@@ -71,6 +71,19 @@ const requiredValidator = (value: string): ValidatorOutput => {
   return value ? undefined : 'Required';
 };
 
+const stringDateValidator = ({
+  message = 'Invalid Date',
+  inputMaskToIgnore = '__/__/____',
+}: {
+  message: string;
+  inputMaskToIgnore: string;
+}) => (value: ValidatorOutput) => {
+  if (!value || value === inputMaskToIgnore) {
+    return undefined;
+  }
+  return isValid(new Date(value)) ? undefined : message;
+};
+
 const zipValidator = (value: string): ValidatorOutput => {
   if (value === '') {
     return undefined;
@@ -87,5 +100,6 @@ export {
   notPastDateValidator,
   regexValidator,
   requiredValidator,
+  stringDateValidator,
   zipValidator,
 };
