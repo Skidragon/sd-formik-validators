@@ -40,7 +40,8 @@
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "uglify-js": "^3.7.1"
   },
   "dependencies": {
     "date-fns": "^2.4.1"
