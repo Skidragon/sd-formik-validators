@@ -64,6 +64,7 @@ describe('Testing formValidators', () => {
     expect(minValidator('abc')).toBeTruthy();
     expect(minValidator('abcde')).toBeTruthy();
 
+    expect(minValidator('')).toBeUndefined();
     expect(minValidator('abcdef')).toBeUndefined();
     expect(minValidator('abcdefgh')).toBeUndefined();
   });
@@ -87,6 +88,7 @@ describe('Testing formValidators', () => {
     expect(zipValidator('1-')).toBeTruthy();
   });
   it('dateValidator', () => {
+    expect(dateValidator('')).toBeUndefined();
     expect(dateValidator(new Date())).toBeUndefined();
 
     expect(dateValidator(new Date('a'))).toBeTruthy();
@@ -96,7 +98,6 @@ describe('Testing formValidators', () => {
     //----------------------------
     const future = new Date();
     future.setDate(future.getDate() + 1);
-
     expect(notPastDateValidator(future)).toBeUndefined();
     // Testing Present date
     //---------------------------
@@ -111,5 +112,8 @@ describe('Testing formValidators', () => {
     expect(notPastDateValidator(new Date(past))).toBeTruthy();
     past.setDate(past.getDate() - 200);
     expect(notPastDateValidator(new Date(past))).toBeTruthy();
+
+    // Testing falsy values
+    expect(notPastDateValidator('')).toBeUndefined();
   });
 });
