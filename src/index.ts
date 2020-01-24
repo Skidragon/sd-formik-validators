@@ -6,7 +6,7 @@ type ValidatorOutput = string | undefined;
 const composeValidators = (...validators: any[]) => (value: string | undefined): string | undefined => {
   return validators.reduce((error, validator) => error || validator(value), undefined);
 };
-
+// https://stackoverflow.com/questions/54443161/parse-and-format-date-in-string/54443608
 const dateValidator = (value: Date | null | ''): ValidatorOutput => {
   if (value) {
     if (Object.prototype.toString.call(value) === '[object Date]') {
@@ -22,7 +22,21 @@ const dateValidator = (value: Date | null | ''): ValidatorOutput => {
     return undefined;
   }
 };
-
+interface IMinimumDateOptions {
+  minDate: Date;
+  customMessage?: string | undefined;
+}
+const minDateValidator = (minDateOptions: IMinimumDateOptions) => (value: Date | null | ''): ValidatorOutput => {
+  const { minDate, customMessage } = minDateOptions;
+  const msg = customMessage ? customMessage : `Date must be greater than minimum date.`;
+  if (value instanceof Date) {
+    return compareAsc(minDate, value) === 1 ? msg : undefined;
+  } else if (typeof value === 'string') {
+    return compareAsc(minDate, new Date(value)) === 1 ? msg : undefined;
+  } else {
+    return undefined;
+  }
+};
 const emailValidator = (value: string): ValidatorOutput => {
   if (value === '') {
     return undefined;
@@ -105,6 +119,7 @@ export {
   dateValidator,
   emailValidator,
   honeypotValidator,
+  minDateValidator,
   minLengthValidator,
   notPastDateValidator,
   regexValidator,

@@ -2,6 +2,7 @@ import {
   dateValidator,
   emailValidator,
   honeypotValidator,
+  minDateValidator,
   minLengthValidator,
   notPastDateValidator,
   regexValidator,
@@ -55,7 +56,19 @@ describe('Testing formValidators', () => {
     expect(validator2('02-00-2024')).toBe('Invalid Date!!!');
     expect(validator2('__/__/____')).toBe('Invalid Date!!!');
   });
+  it('minDateValidator', () => {
+    const msg = 'Bad Minimum Date';
+    const minValidator = minDateValidator({
+      minDate: new Date('02/20/2000'),
+      customMessage: msg,
+    });
 
+    expect(minValidator(new Date())).toBeUndefined();
+    expect(minValidator(new Date('02/20/2000'))).toBeUndefined();
+
+    expect(minValidator(new Date('02/19/2000'))).toBe(msg);
+    expect(minValidator(new Date('02/20/1999'))).toBe(msg);
+  });
   it('minLengthValidator', () => {
     const minValidator = minLengthValidator({
       minLength: 6,
