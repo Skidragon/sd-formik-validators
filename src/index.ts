@@ -37,6 +37,21 @@ const minDateValidator = (minDateOptions: IMinimumDateOptions) => (value: Date |
     return undefined;
   }
 };
+interface IMaxDateOptions {
+  maxDate: Date;
+  customMessage?: string | undefined;
+}
+const maxDateValidator = (maxDateOptions: IMaxDateOptions) => (value: Date | null | ''): ValidatorOutput => {
+  const { maxDate, customMessage } = maxDateOptions;
+  const msg = customMessage ? customMessage : `Date must be greater than max date.`;
+  if (value instanceof Date) {
+    return compareAsc(maxDate, value) === -1 ? msg : undefined;
+  } else if (typeof value === 'string') {
+    return compareAsc(maxDate, new Date(value)) === -1 ? msg : undefined;
+  } else {
+    return undefined;
+  }
+};
 const emailValidator = (value: string): ValidatorOutput => {
   if (value === '') {
     return undefined;
@@ -119,6 +134,7 @@ export {
   dateValidator,
   emailValidator,
   honeypotValidator,
+  maxDateValidator,
   minDateValidator,
   minLengthValidator,
   notPastDateValidator,

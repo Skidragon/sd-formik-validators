@@ -2,6 +2,7 @@ import {
   dateValidator,
   emailValidator,
   honeypotValidator,
+  maxDateValidator,
   minDateValidator,
   minLengthValidator,
   notPastDateValidator,
@@ -56,6 +57,21 @@ describe('Testing formValidators', () => {
     expect(validator2('02-00-2024')).toBe('Invalid Date!!!');
     expect(validator2('__/__/____')).toBe('Invalid Date!!!');
   });
+  it('maxDateValidator', () => {
+    const msg = 'Bad Max Date';
+    const maxValidator = maxDateValidator({
+      maxDate: new Date('02/20/2000'),
+      customMessage: msg,
+    });
+
+    expect(maxValidator(new Date('02/20/2000'))).toBeUndefined();
+    expect(maxValidator(new Date('02/19/2000'))).toBeUndefined();
+    expect(maxValidator(new Date('02/20/1999'))).toBeUndefined();
+
+    expect(maxValidator(new Date('02/21/2000'))).toBe(msg);
+    expect(maxValidator(new Date())).toBe(msg);
+  });
+
   it('minDateValidator', () => {
     const msg = 'Bad Minimum Date';
     const minValidator = minDateValidator({
